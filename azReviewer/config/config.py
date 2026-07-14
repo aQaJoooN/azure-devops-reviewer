@@ -13,7 +13,7 @@ class Config:
 
     RETRY = int(environ.get("AZR_RETRY", "5"))
 
-    LOG_LEVEL = environ.get("AZR_LOG_LEVEL", "WARN") # DEBUG, INFO, WARN, ERROR
+    LOG_LEVEL = environ.get("AZR_LOG_LEVEL", "WARN") # DEBUG, INFO, WARN, ERROR, CRITICAL
 
     ########## Azure DevOps ##########
     
@@ -24,4 +24,3 @@ class Config:
     AI_URL = environ.get("AZR_AI_URL","")
     
     AI_KEY = environ.get("AZR_AI_KEY","")
-
