@@ -1,7 +1,7 @@
 from flask import abort, request, jsonify
 import logging
-from azReviewer.config import Config
 import json
+from azReviewer.config import Config
 from azReviewer.util import LogAggregator
 
 logger = logging.getLogger(__name__)
@@ -41,23 +41,23 @@ class WebHookController:
         resource = data.get("resource", {})
         build_id = resource.get("id")
         build_number = resource.get("buildNumber")
-        log_url = resource.get("url")
+        build_url = resource.get("url")
         
         logger.info(f"Processing build completion - ID: {build_id}, Number: {build_number}")
-        logger.debug(f"Build URL: {log_url}")
+        logger.debug(f"Build URL: {build_url}")
         
-        if not log_url:
+        if not build_url:
             logger.error("Build URL not found in webhook payload")
             abort(400)
         
         # Aggregate logs
         try:
-            log_content = LogAggregator(log_url)
+            log_content = LogAggregator(build_url)
             logger.info(f"Successfully aggregated logs for build {build_number}")
             logger.debug(f"Retrieved {len(log_content.get('value', []))} log entries")
             
-            # TODO: Send logs to AI API for review
-            # TODO: Add review as markdown to Azure pipeline
+            # TODO: Send logs to AI API for review (send log_content)
+            # TODO: Add review as markdown to Azure pipeline (send md_message to Azure devops pipeline)
             
             return {"status": "success", "build_id": build_id, "message": "Logs processed successfully"}, 200
             
